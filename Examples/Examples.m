@@ -30,6 +30,7 @@
         MBXExampleDefaultStyles,
         MBXExampleDraggableAnnotationView,
         MBXExampleFeatureSelection,
+        MBXExampleHeatmap,
         MBXExampleImageAnnotation,
         MBXExampleImageSource,
         MBXExampleLineAnnotationGeoJSON,
