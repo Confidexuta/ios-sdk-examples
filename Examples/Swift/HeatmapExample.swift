@@ -15,7 +15,7 @@ class HeatmapExample: UIViewController, MGLMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let mapView = MGLMapView(frame: view.bounds)
+        let mapView = MGLMapView(frame: view.bounds, styleURL: MGLStyle.darkStyleURL())
         mapView.delegate = self
         view.addSubview(mapView)
         
@@ -27,12 +27,18 @@ class HeatmapExample: UIViewController, MGLMapViewDelegate {
         style.addSource(source)
         
         let colorDictionary = [0: UIColor.clear,
-                               0.1 : UIColor.black.withAlphaComponent(0.5),
-                               0.15 : UIColor.blue.withAlphaComponent(0.5),
-                               0.75 : UIColor.red.withAlphaComponent(0.5),
-                               1 : UIColor.yellow.withAlphaComponent(0.5)]
+                               0.01 : UIColor.white.withAlphaComponent(0.5),
+                               0.15 : UIColor(red:0.19, green:0.30, blue:0.80, alpha:1.0).withAlphaComponent(0.5),
+                               0.5 : UIColor(red:0.73, green:0.23, blue:0.25, alpha:1.0).withAlphaComponent(0.5),
+                               1 : UIColor.yellow.withAlphaComponent(0.5)
+        ]
         let layer = MGLHeatmapStyleLayer(identifier: "earthquakes", source: source)
-        layer.heatmapIntensity = NSExpression(forConstantValue: 0.5)
+        layer.heatmapIntensity = NSExpression(format: "FUNCTION($zoomLevel, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)",
+                                              [0: 1,
+                                               9: 3])
+        layer.heatmapRadius = NSExpression(format: "FUNCTION($zoomLevel, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)",
+                                           [0: 2,
+                                            9: 20])
         layer.heatmapWeight = NSExpression(format: "FUNCTION(magnitude, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)",
                                            [0: 0,
                                             6: 1])
