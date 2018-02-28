@@ -1,10 +1,3 @@
-//
-//  HeatmapExample.swift
-//  Examples
-//
-//  Created by Jordan Kiley on 2/23/18.
-//  Copyright © 2018 Mapbox. All rights reserved.
-//
 
 import Mapbox
 
@@ -43,7 +36,13 @@ class HeatmapExample: UIViewController, MGLMapViewDelegate {
                                            [0: 0,
                                             6: 1])
         layer.heatmapColor = NSExpression(format: "FUNCTION($heatmapDensity, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)", colorDictionary)
+//        layer.heatmapOpacity = NSExpression(format: "FUNCTION($zoomLevel, 'mgl_stepWithMinimum:stops:', %@, nil)",
+//                                            [0: 1,
+//                                             9: 0])
+        
         style.addLayer(layer)
+        
+        // TODO: Add circle layer for higher zoom levels
     }
 
 }
