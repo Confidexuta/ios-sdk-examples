@@ -10,6 +10,7 @@ class HeatmapExample: UIViewController, MGLMapViewDelegate {
 
         let mapView = MGLMapView(frame: view.bounds, styleURL: MGLStyle.darkStyleURL())
         mapView.delegate = self
+        mapView.tintColor = .lightGray
         view.addSubview(mapView)
         
     }
@@ -19,13 +20,16 @@ class HeatmapExample: UIViewController, MGLMapViewDelegate {
         let source = MGLShapeSource(identifier: "earthquakes", url: url, options: nil)
         style.addSource(source)
         
+        let layer = MGLHeatmapStyleLayer(identifier: "earthquakes", source: source)
+        
+        // Set intervals
         let colorDictionary = [0: UIColor.clear,
                                0.01 : UIColor.white.withAlphaComponent(0.5),
                                0.15 : UIColor(red:0.19, green:0.30, blue:0.80, alpha:1.0).withAlphaComponent(0.5),
                                0.5 : UIColor(red:0.73, green:0.23, blue:0.25, alpha:1.0).withAlphaComponent(0.5),
                                1 : UIColor.yellow.withAlphaComponent(0.5)
         ]
-        let layer = MGLHeatmapStyleLayer(identifier: "earthquakes", source: source)
+        layer.heatmapColor = NSExpression(format: "FUNCTION($heatmapDensity, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)", colorDictionary)
         layer.heatmapIntensity = NSExpression(format: "FUNCTION($zoomLevel, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)",
                                               [0: 1,
                                                9: 3])
@@ -35,7 +39,7 @@ class HeatmapExample: UIViewController, MGLMapViewDelegate {
         layer.heatmapWeight = NSExpression(format: "FUNCTION(magnitude, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)",
                                            [0: 0,
                                             6: 1])
-        layer.heatmapColor = NSExpression(format: "FUNCTION($heatmapDensity, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)", colorDictionary)
+        
 //        layer.heatmapOpacity = NSExpression(format: "FUNCTION($zoomLevel, 'mgl_stepWithMinimum:stops:', %@, nil)",
 //                                            [0: 1,
 //                                             9: 0])

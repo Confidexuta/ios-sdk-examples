@@ -14,6 +14,7 @@ NSString *const MBXExampleHeatmap = @"HeatmapExample";
     [super viewDidLoad];
     MGLMapView *mapView = [[MGLMapView alloc] initWithFrame:self.view.bounds styleURL:[MGLStyle darkStyleURL]];
     mapView.delegate = self;
+    mapView.tintColor = [UIColor lightGrayColor];
     [self.view addSubview:mapView];
 }
 
@@ -32,6 +33,7 @@ NSString *const MBXExampleHeatmap = @"HeatmapExample";
     layer.heatmapIntensity = [NSExpression expressionWithFormat:@"FUNCTION($zoomLevel, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)", @{@0: @1, @9: @3 }];
     layer.heatmapRadius = [NSExpression expressionWithFormat:@"FUNCTION($zoomLevel, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)", @{@0: @2, @9: @20}];
     layer.heatmapWeight = [NSExpression expressionWithFormat:@"FUNCTION(magnitude, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)", @{@0: @0, @6: @1}];
+    layer.heatmapColor = [NSExpression expressionWithFormat:@"FUNCTION($heatmapDensity, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)", colorDictionary];
     [style addLayer:layer];
 }
 
