@@ -34,8 +34,8 @@ class HeatmapExample: UIViewController, MGLMapViewDelegate {
                                               [0: 1,
                                                9: 3])
         layer.heatmapRadius = NSExpression(format: "FUNCTION($zoomLevel, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)",
-                                           [0: 2,
-                                            9: 20])
+                                           [0: 4,
+                                            9: 30])
         layer.heatmapWeight = NSExpression(format: "FUNCTION(magnitude, 'mgl_interpolateWithCurveType:parameters:stops:', 'linear', nil, %@)",
                                            [0: 0,
                                             6: 1])
