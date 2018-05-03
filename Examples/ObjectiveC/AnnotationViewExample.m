@@ -15,7 +15,6 @@ NSString *const MBXExampleAnnotationView = @"AnnotationViewExample";
 
     // Force the annotation view to maintain a constant size when the map is tilted.
     self.scalesWithViewingDistance = false;
-    self.rotatesToMatchCamera = true;
 
     // Use CALayer’s corner radius to turn this view into a circle.
     self.layer.cornerRadius = self.frame.size.width / 2;
@@ -54,12 +53,6 @@ NSString *const MBXExampleAnnotationView = @"AnnotationViewExample";
     mapView.zoomLevel = 2;
     mapView.delegate = self;
 
-    // For UI Testing
-    mapView.isAccessibilityElement = NO;
-    mapView.accessibilityIdentifier = @"MGLMapViewId";
-    mapView.compassView.isAccessibilityElement = NO;
-    mapView.compassView.accessibilityIdentifier = @"MGLMapViewCompassId";
-                                                    
     [self.view addSubview:mapView];
 
     // Specify coordinates for our annotations.
@@ -84,14 +77,6 @@ NSString *const MBXExampleAnnotationView = @"AnnotationViewExample";
 }
 
 #pragma mark - MGLMapViewDelegate methods
-
-- (void)mapView:(MGLMapView *)mapView didFinishLoadingStyle:(MGLStyle *)style   {
-    testingSupportPostNotification(MBXTestingSupportNotificationMapViewStyleLoaded);
-}
-
-- (void)mapViewDidFinishRenderingMap:(MGLMapView *)mapView fullyRendered:(BOOL)fullyRendered {
-    testingSupportPostNotification(MBXTestingSupportNotificationMapViewRendered);
-}
 
 // This delegate method is where you tell the map to load a view for a specific annotation. To load a static MGLAnnotationImage, you would use `-mapView:imageForAnnotation:`.
 - (MGLAnnotationView *)mapView:(MGLMapView *)mapView viewForAnnotation:(id <MGLAnnotation>)annotation {
